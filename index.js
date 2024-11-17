@@ -40,16 +40,12 @@ app.get('/todos', (req, res) => {
     if (err) {
       return res.status(500).json({ error: err.message });
     } else {
-      // Transform completed field
-    const todos = rows.map(todo => {
-      const transformedTodo = {
+      // Convert completed from 0/1 to false/true
+      const todos = rows.map(todo => ({
         ...todo,
-        // Convert 0/1 to false/true
-        completed: Boolean(todo.completed), 
-      };
-      return transformedTodo;
-    });
-      res.json(rows);
+        completed: !!todo.completed,
+      }));
+      res.json(todos);
     }
   });
 });
